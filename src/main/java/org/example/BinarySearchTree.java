@@ -17,68 +17,73 @@ public class BinarySearchTree<E extends Comparable> {
 
     // Method to insert a value into the BST
     public Node insert(Node<E> root, E val) {
-        // Base case: if current root is null, create a new node
+        // Base case: if the current root is null, create a new node
         if (root == null) {
             root = new Node<>(val);
             return root;
         }
 
-        // If the new value is smaller, insert in the left subtree
+        // If the new value is smaller, insert into the left subtree
         if (root.data.compareTo(val) > 0) {
             root.left = insert(root.left, val);
         }
 
-        // If the new value is larger, insert in the right subtree
+        // If the new value is larger, insert into the right subtree
         if (root.data.compareTo(val) < 0) {
             root.right = insert(root.right, val);
         }
 
-        // Return the unchanged root pointer
+        // Return the root (unchanged if no insertion at this level)
         return root;
     }
 
-    // In-order traversal: Left -> Root -> Right (prints sorted order for BST)
+    // In-order traversal: Left -> Root -> Right (used to print BST in sorted order)
     public void inOrder(Node<E> root) {
         if (root == null) {
-            return; // Base case: do nothing for empty subtree
+            return; // Base case: do nothing for empty node
         }
 
-        inOrder(root.left);              // Visit left subtree
-        System.out.print(root.data + " "); // Print current node
-        inOrder(root.right);             // Visit right subtree
+        inOrder(root.left);                 // Traverse left subtree
+        System.out.print(root.data + " ");  // Visit root node
+        inOrder(root.right);                // Traverse right subtree
     }
 
-    public int size(Node<E> root){
-        if(root==null){
-            return 0;
+    // Method to count the total number of nodes in the BST
+    public int size(Node<E> root) {
+        if (root == null) {
+            return 0; // No nodes in empty tree
         }
-        return size(root.left)+size(root.right)+1;
+
+        // Recursively count nodes in left and right subtrees and add 1 (for current node)
+        return size(root.left) + size(root.right) + 1;
     }
 
-    // Main method to test the BST
+    // Main method to test all functionalities
     public static void main(String[] args) {
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>(); // Create BST with Integer type
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>(); // Create a BST with Integer type
 
-        int values[] = {56,30,70,22,40,60,95,11,3,16,65,63,67}; // UC1: Add values to the BST
+        // UC2: Array of values to add into the BST
+        int values[] = {56, 30, 70, 22, 40, 60, 95, 11, 3, 16, 65, 63, 67};
 
-        Node<Integer> root = null; // Root node initialized as null
+        Node<Integer> root = null; // Start with an empty tree
 
-        // Insert values into the BST one by one
+        // Insert each value into the BST
         for (int i = 0; i < values.length; i++) {
             root = bst.insert(root, values[i]);
         }
 
-        // Display the tree in sorted order using in-order traversal
+        // Print BST values using in-order traversal
         System.out.println("Printing the values in the Binary Tree:");
         bst.inOrder(root);
 
-        System.out.println("Printing out many elements present in the Binary Tree");
-        System.out.println(bst.size(root));
+        // Print number of nodes in the tree
+        System.out.println("\n\nPrinting how many elements are present in the Binary Tree:");
+        System.out.println(bst.size(root));  // Should match values.length
 
-        if(values.length== bst.size(root)){
+        // Verify if all elements were successfully added
+        if (values.length == bst.size(root)) {
             System.out.println("All elements are added successfully in the Binary Tree");
-        }
-        else{
+        } else {
             System.out.println("All elements are not added successfully in the Binary Tree");
         }
     }
