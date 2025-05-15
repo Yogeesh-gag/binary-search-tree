@@ -48,11 +48,18 @@ public class BinarySearchTree<E extends Comparable> {
         inOrder(root.right);             // Visit right subtree
     }
 
+    public int size(Node<E> root){
+        if(root==null){
+            return 0;
+        }
+        return size(root.left)+size(root.right)+1;
+    }
+
     // Main method to test the BST
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>(); // Create BST with Integer type
 
-        int values[] = {56, 30, 70}; // UC1: Add values to the BST
+        int values[] = {56,30,70,22,40,60,95,11,3,16,65,63,67}; // UC1: Add values to the BST
 
         Node<Integer> root = null; // Root node initialized as null
 
@@ -64,5 +71,15 @@ public class BinarySearchTree<E extends Comparable> {
         // Display the tree in sorted order using in-order traversal
         System.out.println("Printing the values in the Binary Tree:");
         bst.inOrder(root);
+
+        System.out.println("Printing out many elements present in the Binary Tree");
+        System.out.println(bst.size(root));
+
+        if(values.length== bst.size(root)){
+            System.out.println("All elements are added successfully in the Binary Tree");
+        }
+        else{
+            System.out.println("All elements are not added successfully in the Binary Tree");
+        }
     }
 }
