@@ -29,11 +29,11 @@ public class BinarySearchTree<E extends Comparable> {
         }
 
         // If the new value is larger, insert into the right subtree
-        if (root.data.compareTo(val) < 0) {
+        else if (root.data.compareTo(val) < 0) {
             root.right = insert(root.right, val);
         }
 
-        // Return the root (unchanged if no insertion at this level)
+        // Return the root (unchanged if equal value — duplicates are not inserted)
         return root;
     }
 
@@ -51,14 +51,34 @@ public class BinarySearchTree<E extends Comparable> {
     // Method to count the total number of nodes in the BST
     public int size(Node<E> root) {
         if (root == null) {
-            return 0; // No nodes in empty tree
+            return 0; // No nodes in an empty tree
         }
 
         // Recursively count nodes in left and right subtrees and add 1 (for current node)
         return size(root.left) + size(root.right) + 1;
     }
 
-    // Main method to test all functionalities
+    // Method to search for a value in the BST (UC3)
+    public boolean search(Node root, E key) {
+        if (root == null) {
+            return false; // Base case: reached leaf node without finding the key
+        }
+
+        // If key is less than current node, search in the left subtree
+        if (root.data.compareTo(key) > 0) {
+            return search(root.left, key);
+        }
+        // If key is greater than current node, search in the right subtree
+        else if (root.data.compareTo(key) < 0) {
+            return search(root.right, key);
+        }
+        // If equal, key is found
+        else {
+            return true;
+        }
+    }
+
+    // Main method to test all functionalities (UC1, UC2, UC3)
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>(); // Create a BST with Integer type
 
@@ -85,6 +105,13 @@ public class BinarySearchTree<E extends Comparable> {
             System.out.println("All elements are added successfully in the Binary Tree");
         } else {
             System.out.println("All elements are not added successfully in the Binary Tree");
+        }
+
+        // UC3: Search for key 63 in the BST
+        if (bst.search(root, 63)) {
+            System.out.println("63 element is found in the Binary Tree");
+        } else {
+            System.out.println("63 element is not found in the Binary Tree");
         }
     }
 }
